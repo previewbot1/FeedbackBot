@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  telegram-bot:
+    build: .
+    container_name: nx-mirror
+    env_file: config.env
+    restart: always

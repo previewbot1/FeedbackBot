@@ -1,0 +1,16 @@
+aiofiles 
+aiohttp
+httpx
+motor
+pymongo
+pyrofork 
+Pillow
+psutil
+pytz
+requests
+rapidfuzz
+python-dotenv
+TgCrypto-pyrofork
+tenacity
+telegraph
+wikipedia
