@@ -4,8 +4,8 @@
 <a href="https://heroku.com/deploy?template=https://github.com/Krshnasys/FeedbackBot">
   <img src="https://www.herokucdn.com/deploy/button.svg" alt="<b>Deploy To Heroku</b>">
 </a>
----
-## Other Ways
+
+# Other Ways
 Create a `.env` or `config.env` file using this template (Check sample_config.env):
 
 ```env
