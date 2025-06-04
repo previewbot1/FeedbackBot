@@ -1,5 +1,6 @@
 import logging
 import aiohttp
+from aiohttp import FormData
 import asyncio
 import math
 import os
@@ -10,7 +11,6 @@ from PIL import Image
 from pyrogram import Client, filters
 from pyrogram.types import Message
 import emoji
-from aiohttp import FormData
 
 logging.basicConfig(level=logging.INFO)
 
