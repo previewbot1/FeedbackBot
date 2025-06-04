@@ -1,6 +1,6 @@
 {
   "name": "FeedbackBot",
-  "description": "A Pyrogram-based Telegram feedback bot with MongoDB, optional features like image cloud, news, and product catalog support.",
+  "description": "Python Telegram bot for use as a feedback/contact bot.".",
   "repository": "https://github.com/Krshnasys/FeedbackBot",
   "logo": "https://telegram.org/img/t_logo.png",
   "keywords": ["telegram", "bot", "feedback", "pyrogram", "heroku", "mongodb"],
