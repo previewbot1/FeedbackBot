@@ -1,7 +1,7 @@
 [![Join Telegram](https://img.shields.io/badge/Telegram-Join%20Channel-blue?logo=telegram)](https://t.me/NxMirror)
 # Deployment Guide
 ---
-Create a `.env` or `config.env` file using this template:
+Create a `.env` or `config.env` file using this template (Check sample_config.env:
 
 ```env
 TOKEN=your_bot_token_here
