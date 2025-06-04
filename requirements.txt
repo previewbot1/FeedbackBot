@@ -1,5 +1,6 @@
 aiofiles 
 aiohttp
+emoji 
 httpx
 motor
 pymongo
