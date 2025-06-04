@@ -24,6 +24,13 @@ logger = logging.getLogger(__name__)
 
 ADMINS = [int(x) for x in os.getenv("ADMINS", "").split(",") if x.strip().isdigit()]
 
+ADMIN_COMMANDS = {
+    "addservice", "editservice", "removeservice", "listservices", "cleanservices",
+    "users", "send", "broadcast", "logs", "commands", "getcmds",
+    "keyword", "keywords", "delkeyword", "clearkeywords",
+    "save", "listcallbacks", "delcallback", "clearcallbacks"
+}
+
 start_time = time()
 spam_block = {}
 START_RATE_LIMIT_SECONDS = 15
@@ -1116,21 +1123,16 @@ async def basic_info_callback(client: Client, callback_query: CallbackQuery):
             spam_block.pop(user_id, None)
             logger.debug("Rate limit cleared for basic_info", extra=logger_context)
 
+
 @Client.on_message(filters.command("help") & filters.private)
 async def help_command(client: Client, message: Message):
     user_id = message.from_user.id
     logger_context = add_user_context(user_id)
 
     try:
-        now = asyncio.get_event_loop().time()
-        if user_id in spam_block and now - spam_block[user_id] < HELP_RATE_LIMIT_SECONDS:
-            logger.info("Rate limit hit for help command", extra=logger_context)
-            await safe_reply(message, "🖐 Please wait before using /help again.", quote=True)
-            return
-        spam_block[user_id] = now
-
         logger.info("Help command triggered", extra=logger_context)
         is_admin = user_id in ADMINS
+
         buttons = [
             [InlineKeyboardButton("📜 User Commands", callback_data="help_user")],
         ]
@@ -1176,43 +1178,12 @@ async def help_command(client: Client, message: Message):
     except FloodWait as fw:
         logger.warning(f"FloodWait: {fw.value}s", extra=logger_context)
         await asyncio.sleep(fw.value)
-        output = (
-            f"🤖 <b>Welcome to @{client.me.username} Help!</b>\n\n"
-            "Explore available commands below. Click a button to view details."
-        )
-        buttons = [
-            [InlineKeyboardButton("📜 User Commands", callback_data="help_user")],
-        ]
-        if user_id in ADMINS:
-            buttons.append([InlineKeyboardButton("👑 Admin Commands", callback_data="help_admin")])
-        buttons.append([InlineKeyboardButton("🔒 Close", callback_data="help_close")])
-        response_msg = await safe_reply(
-            message,
-            output,
-            reply_markup=InlineKeyboardMarkup(buttons),
-            parse_mode=enums.ParseMode.HTML,
-            quote=True
-        )
-        logger.info("Help menu sent after FloodWait", extra=logger_context)
-
-        try:
-            await add_log_usage(user_id, "help")
-        except Exception as e:
-            logger.error(f"Failed to log usage after retry: {e}", extra=logger_context)
-
-        try:
-            await asyncio.sleep(60)
-            await safe_delete(response_msg)
-            await safe_delete(message)
-        except Exception as e:
-            logger.warning(f"Failed to delete messages after retry: {e}", extra=logger_context)
+        await help_command(client, message)  # retry
 
     except Exception as e:
         logger.error(f"Fatal error in help_command: {e}", extra=logger_context)
         await safe_reply(message, "❌ An unexpected error occurred.", quote=True)
-    finally:
-        spam_block.pop(user_id, None)
-        logger.debug("Rate limit cleared for help", extra=logger_context)
+
 
 @Client.on_callback_query(filters.regex(r"help_(user|admin|close|back)"))
 async def help_callback(client: Client, callback_query: CallbackQuery):
@@ -1229,6 +1200,7 @@ async def help_callback(client: Client, callback_query: CallbackQuery):
         spam_block[user_id] = now
 
         logger.info(f"Help callback triggered: {data}", extra=logger_context)
+
         if data == "help_close":
             await safe_delete(callback_query.message)
             await callback_query.answer("✅ Help menu closed!")
@@ -1257,12 +1229,11 @@ async def help_callback(client: Client, callback_query: CallbackQuery):
             logger.warning("Non-admin attempted to view admin commands", extra=logger_context)
             return
 
-        commands = Bot_cmds
         if data == "help_user":
-            cmd_list = {k: v for k, v in commands.items() if k not in ["logs", "send", "commands", "users", "getcmds"]}
+            cmd_list = {k: v for k, v in Bot_cmds.items() if k not in ADMIN_COMMANDS}
             title = "📜 User Commands"
         else:  # help_admin
-            cmd_list = {k: v for k, v in commands.items() if k in ["logs", "send", "commands", "users", "getcmds"]}
+            cmd_list = {k: v for k, v in Bot_cmds.items() if k in ADMIN_COMMANDS}
             title = "👑 Admin Commands"
 
         if not cmd_list:
@@ -1294,9 +1265,11 @@ async def help_callback(client: Client, callback_query: CallbackQuery):
         logger.warning(f"FloodWait: {fw.value}s in help callback", extra=logger_context)
         await asyncio.sleep(fw.value)
         await callback_query.answer("❌ Retry failed due to rate limits.", show_alert=True)
+
     except Exception as e:
         logger.error(f"Fatal error in help_callback: {e}", extra=logger_context)
         await callback_query.answer("❌ An unexpected error occurred.", show_alert=True)
+
     finally:
         spam_block.pop(user_id, None)
         logger.debug("Rate limit cleared for help callback", extra=logger_context)
