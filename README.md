@@ -78,7 +78,7 @@ docker run --env-file=config.env --name=nxmirror nxmirror-bot
 
 ---
 
-## 🧱 5. Deploy using Docker Compose
+## 5. Deploy using Docker Compose
 
 ### Prerequisites:
 
@@ -97,7 +97,7 @@ docker-compose up --build -d
 
 ---
 
-## 🔁 Restart / Stop Commands (Docker & Compose)
+## Restart / Stop Commands (Docker & Compose)
 
 To restart:
 
