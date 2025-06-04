@@ -1,6 +1,5 @@
 import logging
 import aiohttp
-from aiohttp import FormData
 import asyncio
 import math
 import os
@@ -11,6 +10,7 @@ from PIL import Image
 from pyrogram import Client, filters
 from pyrogram.types import Message
 import emoji
+from aiohttp import FormData
 
 logging.basicConfig(level=logging.INFO)
 
@@ -110,11 +110,17 @@ async def pack_sticker(client: Client, message: Message):
             sticker_emoji = args[0]
 
         if message.reply_to_message:
+            file_id = None
+            use_file = False
+
             if message.reply_to_message.sticker:
-                file_id = message.reply_to_message.sticker.file_id
-                if message.reply_to_message.sticker.emoji and not args:
-                    sticker_emoji = message.reply_to_message.sticker.emoji
-                use_file = False
+                sticker = message.reply_to_message.sticker
+                if sticker.is_animated or sticker.is_video:
+                    await message.reply("Animated or video stickers can't be added.")
+                    return
+                file_id = sticker.file_id
+                if sticker.emoji and not args:
+                    sticker_emoji = sticker.emoji
             elif message.reply_to_message.photo:
                 file_id = message.reply_to_message.photo[-1].file_id
                 use_file = True
@@ -129,7 +135,12 @@ async def pack_sticker(client: Client, message: Message):
                 file_path = await client.download_media(file_id, file_name=tmp.name)
 
             if use_file:
-                await resize_image(file_path)
+                try:
+                    await resize_image(file_path)
+                except:
+                    os.remove(file_path)
+                    await message.reply("Invalid or corrupted image file.")
+                    return
 
             while True:
                 response = await telegram_api("getStickerSet", {"name": packname})
@@ -148,19 +159,15 @@ async def pack_sticker(client: Client, message: Message):
 
             response = await telegram_api("addStickerToSet", data, files)
             if response.get("ok"):
-                await message.reply(
-                    f"Sticker added to [pack](t.me/addstickers/{packname})\nEmoji: {sticker_emoji}",
-                    disable_web_page_preview=True
-                )
+                btn = InlineKeyboardMarkup([[InlineKeyboardButton("Open Pack", url=f"https://t.me/addstickers/{packname}")]])
+                await message.reply(f"Sticker added.\nEmoji: {sticker_emoji}", reply_markup=btn)
             elif response.get("error_code") == 400 and "STICKERSET_INVALID" in response.get("description", ""):
                 name = user.first_name[:50]
                 data["title"] = f"{name}'s Sticker Pack{' ' + str(packnum) if packnum > 0 else ''}"
                 response = await telegram_api("createNewStickerSet", data, files)
                 if response.get("ok"):
-                    await message.reply(
-                        f"Sticker pack created: [pack](t.me/addstickers/{packname})\nEmoji: {sticker_emoji}",
-                        disable_web_page_preview=True
-                    )
+                    btn = InlineKeyboardMarkup([[InlineKeyboardButton("Open Pack", url=f"https://t.me/addstickers/{packname}")]])
+                    await message.reply(f"Sticker pack created.\nEmoji: {sticker_emoji}", reply_markup=btn)
                 else:
                     await message.reply("Failed to create sticker pack.")
                     logging.error(f"Create sticker set failed: {response}", extra={"user_id": user.id})
@@ -174,11 +181,11 @@ async def pack_sticker(client: Client, message: Message):
         else:
             packs = "Reply to a sticker or image to pack it!\nYour packs:\n"
             valid_packs = []
-            for i in range(packnum + 1):
+            for i in range(10):
                 pack = f"a{user.id}_by_{client.me.username}" if i == 0 else f"a{i}_{user.id}_by_{client.me.username}"
                 response = await telegram_api("getStickerSet", {"name": pack})
                 if response.get("ok"):
-                    valid_packs.append(f"[pack{i if i > 0 else ''}](t.me/addstickers/{pack})")
+                    valid_packs.append(f"[pack{i if i > 0 else ''}](https://t.me/addstickers/{pack})")
             packs += "\n".join(valid_packs) if valid_packs else "No packs found."
             await message.reply(packs, disable_web_page_preview=True)
     except Exception as e:
