@@ -1,72 +1,72 @@
 {
   "name": "FeedbackBot",
-  "description": "Python Telegram bot for use as a feedback/contact bot.".",
+  "description": "A Python Telegram bot for collecting feedback or serving as a contact bot.",
   "repository": "https://github.com/Krshnasys/FeedbackBot",
   "logo": "https://telegram.org/img/t_logo.png",
-  "keywords": ["telegram", "bot", "feedback", "pyrogram", "heroku", "mongodb"],
+  "keywords": ["telegram", "bot", "feedback", "pyrogram", "heroku"],
   "env": {
     "TOKEN": {
-      "description": "Telegram Bot Token from BotFather",
+      "description": "Telegram Bot Token",
       "required": true
     },
     "API": {
-      "description": "Telegram API ID from https://my.telegram.org",
+      "description": "Telegram API ID",
       "required": true
     },
     "HASH": {
-      "description": "Telegram API HASH from https://my.telegram.org",
+      "description": "Telegram API Hash",
       "required": true
     },
     "ADMINS": {
-      "description": "Comma-separated list of admin Telegram user IDs",
+      "description": "Comma-separated list of admin user IDs",
       "required": true
     },
     "LOG": {
-      "description": "Log group or channel ID where the bot will send logs",
+      "description": "Log chat ID",
       "required": true
     },
     "MONGO": {
-      "description": "Full MongoDB URI for storing user and feedback data",
+      "description": "MongoDB connection URI",
       "required": true
     },
     "DB_NAME": {
-      "description": "The MongoDB database name (e.g., Cluster0)",
+      "description": "MongoDB database name",
       "required": true
     },
     "FAQ": {
-      "description": "Enable FAQ module (True or False)",
+      "description": "Enable FAQ (True/False)",
       "required": false
     },
     "IMG_CLOUD": {
-      "description": "Enable image upload to ImgBB (True or False)",
+      "description": "Enable image cloud (True/False)",
       "required": false
     },
     "IMGBB_API_KEY": {
-      "description": "ImgBB API key (only needed if IMG_CLOUD=True)",
+      "description": "ImgBB API Key",
       "required": false
     },
     "GNEWS_KEY": {
-      "description": "GNews API key (used for fetching news)",
+      "description": "GNews API Key",
       "required": false
     },
     "LOG_FILE": {
-      "description": "Log filename (default: bot.log)",
+      "description": "Log file name",
       "required": false
     },
     "WEB_RESPONSE": {
-      "description": "Name or ID used in web response (default: nxmirror)",
+      "description": "Web response prefix (e.g., nxmirror)",
       "required": false
     },
     "SOURCE_BUTTON": {
-      "description": "Show source button (True or False)",
+      "description": "Show source button (True/False)",
       "required": false
     },
     "SOURCE": {
-      "description": "URL of the bot source code (default: https://github.com/Krshnasys/FeedbackBot)",
+      "description": "Link to source code",
       "required": false
     },
     "PRODUCTS": {
-      "description": "Enable product catalog mode (True or False)",
+      "description": "Enable products feature (True/False)",
       "required": false
     }
   },
