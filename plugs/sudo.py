@@ -990,6 +990,10 @@ async def handle_callback_buttons(client: Client, callback_query: CallbackQuery)
     data = callback_query.data
     logger.info(f"Handling callback: {data} by user {callback_query.from_user.id}")
 
+    #static callbacks
+    if data.startswith("help_") or data in ("faq",):
+        return
+
     if data.startswith("product_detail:") or data in ("back_products", "close_products"):
         logger.debug(f"Skipping products callback: {data}")
         return
@@ -997,6 +1001,7 @@ async def handle_callback_buttons(client: Client, callback_query: CallbackQuery)
     if data.startswith("popup:") or data.startswith("alert:"):
         await callback_query.answer(data.split(":", 1)[1], show_alert=True)
         return
+
 
     response = await get_callback_response(data)
     if response:
