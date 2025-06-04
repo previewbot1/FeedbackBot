@@ -1,4 +1,9 @@
 [![Join Telegram](https://img.shields.io/badge/Telegram-Join%20Channel-blue?logo=telegram)](https://t.me/NxMirror)
+
+<h1>Deploy Options</h1>
+<a href="https://heroku.com/deploy?template=https://github.com/Krshnasys/FeedbackBot/tree/bans">
+  <img src="https://www.herokucdn.com/deploy/button.svg" alt="<b>Deploy To Heroku</b>">
+</a>
 # Deployment Guide
 ---
 Create a `.env` or `config.env` file using this template (Check sample_config.env):
