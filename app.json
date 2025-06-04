@@ -1,0 +1,86 @@
+{
+  "name": "FeedbackBot",
+  "description": "A Pyrogram-based Telegram feedback bot with MongoDB, optional features like image cloud, news, and product catalog support.",
+  "repository": "https://github.com/Krshnasys/FeedbackBot",
+  "logo": "https://telegram.org/img/t_logo.png",
+  "keywords": ["telegram", "bot", "feedback", "pyrogram", "heroku", "mongodb"],
+  "env": {
+    "TOKEN": {
+      "description": "Telegram Bot Token from BotFather",
+      "required": true
+    },
+    "API": {
+      "description": "Telegram API ID from https://my.telegram.org",
+      "required": true
+    },
+    "HASH": {
+      "description": "Telegram API HASH from https://my.telegram.org",
+      "required": true
+    },
+    "ADMINS": {
+      "description": "Comma-separated list of admin Telegram user IDs",
+      "required": true
+    },
+    "LOG": {
+      "description": "Log group or channel ID where the bot will send logs",
+      "required": true
+    },
+    "MONGO": {
+      "description": "Full MongoDB URI for storing user and feedback data",
+      "required": true
+    },
+    "DB_NAME": {
+      "description": "The MongoDB database name (e.g., Cluster0)",
+      "required": true
+    },
+    "FAQ": {
+      "description": "Enable FAQ module (True or False)",
+      "required": false
+    },
+    "IMG_CLOUD": {
+      "description": "Enable image upload to ImgBB (True or False)",
+      "required": false
+    },
+    "IMGBB_API_KEY": {
+      "description": "ImgBB API key (only needed if IMG_CLOUD=True)",
+      "required": false
+    },
+    "GNEWS_KEY": {
+      "description": "GNews API key (used for fetching news)",
+      "required": false
+    },
+    "LOG_FILE": {
+      "description": "Log filename (default: bot.log)",
+      "required": false
+    },
+    "WEB_RESPONSE": {
+      "description": "Name or ID used in web response (default: nxmirror)",
+      "required": false
+    },
+    "SOURCE_BUTTON": {
+      "description": "Show source button (True or False)",
+      "required": false
+    },
+    "SOURCE": {
+      "description": "URL of the bot source code (default: https://github.com/Krshnasys/FeedbackBot)",
+      "required": false
+    },
+    "PRODUCTS": {
+      "description": "Enable product catalog mode (True or False)",
+      "required": false
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "formation": {
+    "worker": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+  "addons": [],
+  "stack": "heroku-22"
+}
