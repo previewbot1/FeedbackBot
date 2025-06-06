@@ -1,4 +1,4 @@
 #Typo:(later)
 
-"Credits: Krshnasys"
-"@NxMirror on Telegram"
+'''Credits: Krshnasys'''
+'''@NxMirror on Telegram'''
