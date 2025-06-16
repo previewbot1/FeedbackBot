@@ -1,26 +1,38 @@
 <div align="center">
 
-# FeedbackBot • Changelog  
-You will find here all the changes made with each version, in antichronological order.
+# 🛠️ FeedbackBot Updates  
+Tracking all improvements, releases & experiments — most recent on top.
 
 </div>
 
-> [!NOTE]  
-> Versions follow semantic versioning (`vX.Y.Z`) — `X`: major changes, `Y`: features & fixes, `Z`: patches/tests
+---
+
+### 📌 Version Legend
+- `MAJOR` – Big feature overhauls or breaking changes  
+- `MINOR` – New features or enhancements  
+- `PATCH` – Fixes, polish, and behind-the-scenes tweaks
 
 ---
 
-## v1
+## 🧪 v1.0.0 — First Launch!
 
-<details>
-<summary>Click to expand</summary>
+🗓️ Date: 2025-06-16  
+🔖 Type: `MAJOR`
 
-### v1.0.0 – Initial Release
+The bot is officially live! 🎉  
+This marks the first stable version of FeedbackBot with all planned features in place — commands, admin panel, OCR, Telegraph tools, and more.
 
-🚀 Initial public release of **FeedbackBot**
+👉 Dive into the [README](./README.md) for everything this bot can do.
 
-- All core functionalities implemented  
-- Admin tools, utilities, and product management ready  
-- Full feature list available in the [README](./README.md)
+---
 
-</details>
+### 🚧 Upcoming
+
+Stay tuned for:
+- UI improvements for better user interaction  
+- Enhanced logging and analytics  
+- Web dashboard (maybe 👀)
+
+---
+
+Built with 💬 by [YourName or TeamName]
