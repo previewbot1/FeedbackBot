@@ -116,5 +116,3 @@ To rebuild:
 ```bash
 docker-compose up --build -d
 ```
-
-Forking and editing this repo won’t make you a developer. Thanks!"
