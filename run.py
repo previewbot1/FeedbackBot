@@ -2,6 +2,7 @@ import asyncio
 import logging
 import os
 import random
+import re
 from dotenv import load_dotenv
 from pyrogram import Client, filters, idle, enums
 from pyrogram.errors.exceptions.bad_request_400 import ReactionInvalid
@@ -58,10 +59,12 @@ except Exception as e:
 @app.on_message(filters.private & ~filters.command([
     "start", "ping", "alive", "system", "id", "info", "commands", "broadcast",
     "stickerid", "getsticker", "pack", "img", "cup", "cloud", "logs", "send",
-    "users", "keyword", "keywords", "clearkeywords", "delkeyword", "save", "listcallbacks", "delcallback", "clearcallbacks", "wiki", "news", 
-    "buy", "prodects", "prodect", "sale", "addservice", "editservice", "listservices", "removeservice", "cleanservices", "ocr", "telegraphtxt",
+    "users", "keyword", "keywords", "clearkeywords", "delkeyword", "save", 
+    "listcallbacks", "delcallback", "clearcallbacks", "wiki", "news",
+    "buy", "prodects", "prodect", "sale", "addservice", "editservice", 
+    "listservices", "removeservice", "cleanservices", "ocr", "telegraphtxt",
     "telegraph", "getcmds", "help"
-])) #Add Accordingly 
+]))
 async def handle_all_messages(client: Client, message: Message):
     try:
         logger.info(f"Received message from user {message.from_user.id}")
@@ -83,7 +86,55 @@ async def handle_all_messages(client: Client, message: Message):
                 await message.reply_text(script.REPLY_MSG)
         else:
             await message.reply_text(script.REPLY_MSG)
-        await message.forward(LOG_CHANNEL)
+        content = message.text or message.caption or ""
+        user_mention = message.from_user.mention
+        user_id = message.from_user.id
+        footer = script.NEW_MSG.format(user_mention, user_id)
+        full_content = f"{content}\n\n{footer}" if content else footer
+        if message.text or message.caption:
+            await client.send_message(
+                chat_id=LOG_CHANNEL,
+                text=full_content
+            )
+        elif message.photo:
+            await client.send_photo(
+                chat_id=LOG_CHANNEL,
+                photo=message.photo.file_id,
+                caption=full_content
+            )
+        elif message.video:
+            await client.send_video(
+                chat_id=LOG_CHANNEL,
+                video=message.video.file_id,
+                caption=full_content
+            )
+        elif message.document:
+            await client.send_document(
+                chat_id=LOG_CHANNEL,
+                document=message.document.file_id,
+                caption=full_content
+            )
+        elif message.audio:
+            await client.send_audio(
+                chat_id=LOG_CHANNEL,
+                audio=message.audio.file_id,
+                caption=full_content
+            )
+        elif message.sticker:
+            await client.send_sticker(
+                chat_id=LOG_CHANNEL,
+                sticker=message.sticker.file_id
+            )
+            await client.send_message(
+                chat_id=LOG_CHANNEL,
+                text=footer
+            )
+        elif message.animation:
+            await client.send_animation(
+                chat_id=LOG_CHANNEL,
+                animation=message.animation.file_id,
+                caption=full_content
+            )
         await message.react(random.choice(script.EMOJIS))
     except FloodWait as e:
         logger.error(f"FloodWait: Sleeping for {e.value} seconds")
@@ -98,11 +149,17 @@ async def handle_all_messages(client: Client, message: Message):
 async def handle_admin_reply(client: Client, message: Message):
     try:
         logger.info(f"Received admin reply from user {message.from_user.id}")
-        if not message.reply_to_message.forward_origin or not hasattr(message.reply_to_message.forward_origin, 'sender_user'):
-            logger.error("No user ID found in forwarded message")
-            await message.reply_text("Cannot reply: Original user ID not found.")
+        if not message.reply_to_message:
+            logger.error("No reply_to_message found")
+            await message.reply_text("Cannot reply: No message to reply to.")
             return
-        user_id = message.reply_to_message.forward_origin.sender_user.id
+        reply_text = message.reply_to_message.text or message.reply_to_message.caption or ""
+        match = re.search(r"User Id (\d+)", reply_text)
+        if not match:
+            logger.error("No user ID found in message")
+            await message.reply_text("Cannot reply: User ID not found in message.")
+            return
+        user_id = int(match.group(1))
         if message.text or message.caption:
             await client.send_message(
                 chat_id=user_id,
