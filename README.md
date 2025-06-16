@@ -79,7 +79,7 @@ SOURCE=https://github.com/Krshnasys/FeedbackBot
 PRODUCTS=True
 ```
 ---
-##1. Deploy to Heroku (Dashboard GUI)
+## 1. Deploy to Heroku (Dashboard GUI)
 ### Steps:
 
 1. Go to [Heroku Dashboard](https://dashboard.heroku.com/)
@@ -96,7 +96,7 @@ PRODUCTS=True
 Your bot will run as a worker process.
 
 ---
-##2. Deploy to Heroku using CLI
+## 2. Deploy to Heroku using CLI
 
 - Install [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
 - Login with `heroku login`
