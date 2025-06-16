@@ -1,6 +1,6 @@
 <div align="center">
 
-# FeedbackBot • Changelog  
+# FeedbackBot• Changelog  
 Compact record of updates, in reverse chronological order.
 
 </div>
