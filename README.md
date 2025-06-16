@@ -1,5 +1,58 @@
 [![Join Telegram](https://img.shields.io/badge/Telegram-Join%20Channel-blue?logo=telegram)](https://t.me/NxMirror) 
 
+<details>
+<summary> Features</summary>
+
+---
+
+### User Commands
+- `/start` — Start the bot  
+- `/help` — Get help and usage guide  
+- `/buy` — Browse available services/products  
+- `/alive` — Check if the bot is active  
+- `/ping` — Measure bot response time  
+- `/system` — Show system resource usage  
+- `/id` — Get user ID and chat info  
+- `/info` — Fetch user profile details  
+- `/img` — Upload an image to cloud  
+- `/ocr` — Extract text from image or text file  
+- `/telegraphtxt` — Upload plain text to Telegraph  
+- `/telegraph` — Upload images to Telegraph  
+- `/stickerid` — Retrieve sticker file ID  
+- `/getsticker` — Get detailed info about a sticker  
+- `/wiki` — Search any topic on Wikipedia  
+- `/news` — Get trending news headlines  
+
+---
+
+### Admin Commands
+- `/addservice` — Add a new product to the selling list  
+- `/editservice` — Edit existing product details  
+- `/removeservice` — Remove a product from the list  
+- `/listservices` — View all available products  
+- `/cleanservices` — Delete all products from the database  
+- `/users` — Get total registered users  
+- `/send` — Send a direct message to a user  
+- `/broadcast` — Send a message to all users  
+- `/logs` — Fetch recent bot logs  
+- `/commands` — Update bot command list  
+- `/getcmds` — View current command list  
+- `/keyword` — Add keyword-triggered auto-reply  
+- `/keywords` — View all active keywords  
+- `/delkeyword` — Delete a specific keyword  
+- `/clearkeywords` — Remove all keywords  
+- `/save` — Save callback data and response  
+- `/listcallbacks` — List all stored callbacks  
+- `/delcallback` — Delete a specific callback  
+- `/clearcallbacks` — Clear all saved callbacks  
+
+---
+
+### Note:
+For instance, with `/addservice`, admins can introduce new items or services for users to purchase, while `/editservice` allows them to update existing product details such as price or description. If a product is outdated, it can be removed using `/removeservice`, or the entire list can be wiped clean with `/cleanservices`. 
+
+</details>
+
 # Deploy To Heroku
 <a href="https://heroku.com/deploy?template=https://github.com/Krshnasys/FeedbackBot">
   <img src="https://www.herokucdn.com/deploy/button.svg" alt="<b>Deploy To Heroku</b>">
@@ -26,7 +79,7 @@ SOURCE=https://github.com/Krshnasys/FeedbackBot
 PRODUCTS=True
 ```
 ---
-# 1. Deploy to Heroku (Dashboard GUI)
+##1. Deploy to Heroku (Dashboard GUI)
 ### Steps:
 
 1. Go to [Heroku Dashboard](https://dashboard.heroku.com/)
@@ -40,10 +93,10 @@ PRODUCTS=True
 9. Click **Deploy Branch**
 10. Scale up Dynos 
 
-✅ Your bot will run as a worker process.
+Your bot will run as a worker process.
 
 ---
-# 2. Deploy to Heroku using CLI
+##2. Deploy to Heroku using CLI
 
 - Install [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
 - Login with `heroku login`
@@ -74,7 +127,7 @@ heroku logs --tail
 docker build -t nxmirror-bot .
 docker run --env-file=config.env --name=nxmirror nxmirror-bot
 ```
-✅ Your bot will now be running inside a Docker container.
+ Your bot will now be running inside a Docker container.
 
 ---
 
@@ -93,7 +146,7 @@ docker run --env-file=config.env --name=nxmirror nxmirror-bot
 docker-compose up --build -d
 ```
 
-✅ Docker Compose will handle everything: building, environment setup, and running the bot.
+ Docker Compose will handle everything: building, environment setup, and running the bot.
 
 ---
 
