@@ -174,4 +174,4 @@ docker-compose up --build -d
 
 © 2025 FtKrishna. All rights reserved.  
 This project, FeedbackBoy, is released under the [MIT License](LICENSE).  
-You are free to use, modify, and distribute it — just remember to give credit.
+You are free to use, modify, and distribute it — just remember to tag me.
