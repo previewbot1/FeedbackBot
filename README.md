@@ -169,3 +169,9 @@ To rebuild:
 ```bash
 docker-compose up --build -d
 ```
+
+## License & Copyright
+
+© 2025 FtKrishna. All rights reserved.
+This project, AutoPostBot, is released under the [MIT License](LICENSE).  
+You are free to use, modify, and distribute it — just remember to tag me.
