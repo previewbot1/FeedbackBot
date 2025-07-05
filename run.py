@@ -11,6 +11,7 @@ from pyrogram.types import Message
 from utils.buttons import parse_buttons
 from utils.database import get_keyword_response_map
 from formats import script
+from DA_Koyeb.health import emit_positive_health
 
 for handler in logging.root.handlers[:]:
     logging.root.removeHandler(handler)
@@ -223,6 +224,7 @@ async def main():
 
 if __name__ == "__main__":
     logger.info("NX Bot is starting...")
+    emit_positive_health()
     try:
         app.run(main())
     except Exception as e:
